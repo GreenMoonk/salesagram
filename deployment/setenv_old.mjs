@@ -80,7 +80,7 @@ if(whichConfig == 1) {
 
         # For API
         location /backend {
-            alias /var/www/pickbazar-laravel/api/public;
+            alias /var/www/ganjamill/api/public;
             try_files $uri $uri/ @backend;
                 location ~ \\.php$ {
                 include fastcgi_params;
@@ -144,7 +144,7 @@ if(whichConfig == 1) {
 
         # For API
         location /backend {
-            alias /var/www/pickbazar-laravel/api/public;
+            alias /var/www/ganjamill/api/public;
             try_files $uri $uri/ @backend;
                 location ~ \\.php$ {
                 include fastcgi_params;

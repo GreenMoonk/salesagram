@@ -38,17 +38,17 @@ if (whichConfig == 1) {
 
     echo("Removing admin.zip and admin to the server, Please wait...")
 
-    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "rm -rf /var/www/pickbazar-laravel/admin.zip /var/www/pickbazar-laravel/admin";`
-    // let front_end_source_path = await question('Enter frontend.zip source path (ex: /home/../pickbazar-laravel/frontend.zip): ')
+    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "rm -rf /var/www/ganjamill/admin.zip /var/www/ganjamill/admin";`
+    // let front_end_source_path = await question('Enter frontend.zip source path (ex: /home/../ganjamill/frontend.zip): ')
     let front_end_source_path = "./admin.zip";
     echo("Uploading admin.zip to server, Please wait...")
-    await $`scp ${front_end_source_path} ${username}@${ip_address}:/var/www/pickbazar-laravel`
+    await $`scp ${front_end_source_path} ${username}@${ip_address}:/var/www/ganjamill`
 
     echo(chalk.green("Uploaded admin.zip to server"))
-    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "unzip /var/www/pickbazar-laravel/admin.zip -d /var/www/pickbazar-laravel";`
+    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "unzip /var/www/ganjamill/admin.zip -d /var/www/ganjamill";`
 
     echo('Install Node For admin')
-    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "yarn --cwd /var/www/pickbazar-laravel/admin/rest";`
+    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "yarn --cwd /var/www/ganjamill/admin/rest";`
 
     await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "pm2 restart all";`;
     echo(chalk.green('Your application build and upload successful'))
@@ -83,17 +83,17 @@ if (whichConfig == 1) {
 
     echo("Removing admin.zip and admin to the server, Please wait...")
 
-    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "rm -rf /var/www/pickbazar-laravel/admin.zip /var/www/pickbazar-laravel/admin";`
-    // let front_end_source_path = await question('Enter frontend.zip source path (ex: /home/../pickbazar-laravel/frontend.zip): ')
+    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "rm -rf /var/www/ganjamill/admin.zip /var/www/ganjamill/admin";`
+    // let front_end_source_path = await question('Enter frontend.zip source path (ex: /home/../ganjamill/frontend.zip): ')
     let front_end_source_path = "./admin.zip";
     echo("Uploading admin.zip to server, Please wait...")
-    await $`scp ${front_end_source_path} ${username}@${ip_address}:/var/www/pickbazar-laravel`
+    await $`scp ${front_end_source_path} ${username}@${ip_address}:/var/www/ganjamill`
 
     echo(chalk.green("Uploaded admin.zip to server"))
-    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "unzip /var/www/pickbazar-laravel/admin.zip -d /var/www/pickbazar-laravel";`
+    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "unzip /var/www/ganjamill/admin.zip -d /var/www/ganjamill";`
 
     echo('Install Node For admin')
-    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "yarn --cwd /var/www/pickbazar-laravel/admin/graphql";`
+    await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "yarn --cwd /var/www/ganjamill/admin/graphql";`
 
     await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "pm2 restart all";`;
     echo(chalk.green('Your application build and upload successful'))

@@ -7,7 +7,7 @@ read ip_address
 echo "########### connecting to server... ###########"
 echo "${username}"
 echo "${ip_address}"
-ssh -o StrictHostKeyChecking=no -l "${username}" "${ip_address}" "sudo mkdir -p /var/www/pickbazar-laravel; sudo chown -R \$USER:\$USER /var/www; sudo apt install zip unzip";
+ssh -o StrictHostKeyChecking=no -l "${username}" "${ip_address}" "sudo mkdir -p /var/www/ganjamill; sudo chown -R \$USER:\$USER /var/www; sudo apt install zip unzip";
 
 if [ -d "./api" ]; then
   echo 'Zipping api folder'
@@ -23,16 +23,16 @@ if [ -f "./api.zip" ] && [ -f "./deployment.zip" ]; then
     # echo "Enter your api.zip file path"
     # read api_source_path
     echo "Uploading api.zip to server"
-    scp "./api.zip" "${username}@${ip_address}:/var/www/pickbazar-laravel"
+    scp "./api.zip" "${username}@${ip_address}:/var/www/ganjamill"
     echo "uploaded api.zip to server"
-    ssh -o StrictHostKeyChecking=no -l "${username}" "${ip_address}" "unzip /var/www/pickbazar-laravel/api.zip -d /var/www/pickbazar-laravel";
+    ssh -o StrictHostKeyChecking=no -l "${username}" "${ip_address}" "unzip /var/www/ganjamill/api.zip -d /var/www/ganjamill";
 
     # echo "Enter your deployment.zip file path"
     # read deployment_source_path
     echo 'Uploading deployment.zip to server...'
-    scp "./deployment.zip" "${username}@${ip_address}:/var/www/pickbazar-laravel"
+    scp "./deployment.zip" "${username}@${ip_address}:/var/www/ganjamill"
     echo 'uploaded deployment.zip to server'
-    ssh -o StrictHostKeyChecking=no -l "${username}" "${ip_address}" "unzip /var/www/pickbazar-laravel/deployment.zip -d /var/www/pickbazar-laravel";
+    ssh -o StrictHostKeyChecking=no -l "${username}" "${ip_address}" "unzip /var/www/ganjamill/deployment.zip -d /var/www/ganjamill";
 else
   echo "Api and deployment zip file missing"
 fi

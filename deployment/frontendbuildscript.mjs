@@ -99,12 +99,12 @@ echo("Zipping shop, admin, package.json, babel.config.js and yarn.lock folder")
 await $`zip -r frontend.zip shop admin package.json babel.config.js yarn.lock`
 
 echo(chalk.green('frontend.zip file created'))
-// let front_end_source_path = await question('Enter frontend.zip source path (ex: /home/../pickbazar-laravel/frontend.zip): ')
+// let front_end_source_path = await question('Enter frontend.zip source path (ex: /home/../ganjamill/frontend.zip): ')
 let front_end_source_path = "./frontend.zip";
 echo("Uploading frontend.zip to server, Please wait...")
-await $`scp ${front_end_source_path} ${username}@${ip_address}:/var/www/pickbazar-laravel`;
+await $`scp ${front_end_source_path} ${username}@${ip_address}:/var/www/ganjamill`;
 echo(chalk.green("Uploaded frontend.zip to server"))
 
-await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "unzip /var/www/pickbazar-laravel/frontend.zip -d /var/www/pickbazar-laravel";`;
+await $`ssh -o StrictHostKeyChecking=no -l ${username} ${ip_address} "unzip /var/www/ganjamill/frontend.zip -d /var/www/ganjamill";`;
 
 echo(chalk.green('Your application build successful'))

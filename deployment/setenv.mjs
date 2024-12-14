@@ -37,8 +37,8 @@ echo(chalk.blue('#Step 5 - Setting Up VirtualHost'))
 let domainName = await question('What is your domain name? ')
 echo(chalk.green(`Your domain name is: ${domainName} \n`))
 
-await $`sudo mkdir -p /var/www/Ganjamill`
-await $`sudo chown -R $USER:$USER /var/www/Ganjamill`
+await $`sudo mkdir -p /var/www/ganjamill`
+await $`sudo chown -R $USER:$USER /var/www/ganjamill`
 
 await $`sudo touch /etc/apache2/sites-available/${domainName}.conf`
 
@@ -47,9 +47,9 @@ await $`sudo chmod 777 /etc/apache2/sites-available/${domainName}.conf`
 await $`sudo echo '<VirtualHost *:80>
     ServerName ${domainName}
     ServerAlias www.${domainName}
-    DocumentRoot /var/www/Ganjamill
+    DocumentRoot /var/www/ganjamill
 
-    <Directory /var/www/Ganjamill>
+    <Directory /var/www/ganjamill>
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
