@@ -4,22 +4,23 @@
   "private": true,
   "author": "REDQ",
   "workspaces": [
-    "admin/*",
+    "admin/rest",
     "shop"
   ],
   "scripts": {
     "clean": "yarn workspaces run rimraf \"{.next,node_modules,__generated__,.cache}\" && rimraf node_modules",
-    "dev:all": "yarn shop:dev:rest && yarn admin:dev:rest",
-    "build:all": "yarn shop:build:rest && yarn admin:build:rest",
-    "start:all": "yarn shop:start:rest && yarn admin:start:rest",
 
-    "shop:dev": "yarn workspace @ganjamill/shop dev:rest",
-    "shop:build": "yarn workspace @ganjamill/shop build:rest",
-    "shop:start": "yarn workspace @ganjamill/shop start",
+    "dev:all": "yarn shop:dev && yarn admin:dev",
+    "build:all": "yarn shop:build && yarn admin:build",
+    "start:all": "yarn shop:start && yarn admin:start",
 
-    "admin:dev": "yarn workspace @marvel/admin-rest dev",
-    "admin:build": "yarn workspace @marvel/admin-rest build",
-    "admin:start": "yarn workspace @marvel/admin-rest start",
+    "shop:dev": "yarn workspace shop dev",
+    "shop:build": "yarn workspace shop build",
+    "shop:start": "yarn workspace shop start",
+
+    "admin:dev": "yarn workspace admin/rest dev",
+    "admin:build": "yarn workspace admin/rest build",
+    "admin:start": "yarn workspace admin/rest start",
 
     "prepare": "husky install",
     "lint": "yarn workspaces run eslint --ext .js,.ts,.tsx src/"
