@@ -8,27 +8,31 @@
     "shop"
   ],
   "scripts": {
-    "clean": "yarn workspaces run rimraf \"{.next,node_modules,__generated__,.cache,src/graphql/*.d.ts,src/framework/graphql/**/*.d.ts}\" && rimraf node_modules",
-    "gql-clean": "yarn workspaces run rimraf \"{__generated__,src/graphql/*.d.ts,src/framework/graphql/**/*.d.ts}\"",
-    "dev:shop-rest": "yarn workspace @pick-bazar/shop dev:rest",
-    "build:shop-rest": "yarn workspace @pick-bazar/shop build:rest",
-    "start:shop-rest": "yarn workspace @pick-bazar/shop start",
-    "dev:admin-rest": "yarn workspace @marvel/admin-rest dev",
-    "build:admin-rest": "yarn workspace @marvel/admin-rest build",
-    "start:admin-rest": "yarn workspace @marvel/admin-rest start",
-    "dev:shop-gql": "yarn workspace @pick-bazar/shop dev:gql",
-    "build:shop-gql": "yarn workspace @pick-bazar/shop build:gql",
-    "start:shop-gql": "yarn workspace @pick-bazar/shop start",
-    "dev:admin-gql": "yarn workspace @marvel/admin-graphql dev",
-    "build:admin-gql": "yarn workspace @marvel/admin-graphql build",
-    "start:admin-gql": "yarn workspace @marvel/admin-graphql start",
-    "prepare": "husky install"
+    "clean": "yarn workspaces run rimraf \"{.next,node_modules,__generated__,.cache}\" && rimraf node_modules",
+    "dev:all": "yarn shop:dev:rest && yarn admin:dev:rest",
+    "build:all": "yarn shop:build:rest && yarn admin:build:rest",
+    "start:all": "yarn shop:start:rest && yarn admin:start:rest",
+    "shop:dev:rest": "yarn workspace @pick-bazar/shop dev:rest",
+    "shop:build:rest": "yarn workspace @pick-bazar/shop build:rest",
+    "shop:start:rest": "yarn workspace @pick-bazar/shop start",
+    "admin:dev:rest": "yarn workspace @marvel/admin-rest dev",
+    "admin:build:rest": "yarn workspace @marvel/admin-rest build",
+    "admin:start:rest": "yarn workspace @marvel/admin-rest start",
+    "prepare": "husky install",
+    "lint": "yarn workspaces run eslint --ext .js,.ts,.tsx src/"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "yarn": ">=1.22.0"
   },
   "devDependencies": {
     "husky": "^7.0.1",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0"
   },
   "lint-staged": {
     "*.{js,ts,tsx,md,css}": [
