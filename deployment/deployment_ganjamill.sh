@@ -39,4 +39,4 @@ fi
 
 # Проверяем, созданы ли zip-архивы, и отправляем их на сервер
 if [ -f "./api.zip" ]; then
-    echo "Uploading api
+    echo "Uploading api"
