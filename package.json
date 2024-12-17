@@ -8,7 +8,7 @@
     "shop"
   ],
   "scripts": {
-    "clean": "yarn workspaces run rimraf \"{.next,node_modules,__generated__,.cache}\" && rimraf node_modules",
+    "clean": "yarn workspaces run del \"{.next,node_modules,__generated__,.cache}\" && del node_modules",
 
     "dev:all": "yarn shop:dev && yarn admin:dev",
     "build:all": "yarn shop:build && yarn admin:build",
