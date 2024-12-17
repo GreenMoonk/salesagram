@@ -1,5 +1,5 @@
 {
-  "name": "pick-bazar",
+  "name": "ganjamill",
   "version": "11.13.0",
   "private": true,
   "author": "REDQ",
@@ -12,12 +12,15 @@
     "dev:all": "yarn shop:dev:rest && yarn admin:dev:rest",
     "build:all": "yarn shop:build:rest && yarn admin:build:rest",
     "start:all": "yarn shop:start:rest && yarn admin:start:rest",
-    "shop:dev:rest": "yarn workspace @pick-bazar/shop dev:rest",
-    "shop:build:rest": "yarn workspace @pick-bazar/shop build:rest",
-    "shop:start:rest": "yarn workspace @pick-bazar/shop start",
-    "admin:dev:rest": "yarn workspace @marvel/admin-rest dev",
-    "admin:build:rest": "yarn workspace @marvel/admin-rest build",
-    "admin:start:rest": "yarn workspace @marvel/admin-rest start",
+
+    "shop:dev": "yarn workspace @ganjamill/shop dev:rest",
+    "shop:build": "yarn workspace @ganjamill/shop build:rest",
+    "shop:start": "yarn workspace @ganjamill/shop start",
+
+    "admin:dev": "yarn workspace @marvel/admin-rest dev",
+    "admin:build": "yarn workspace @marvel/admin-rest build",
+    "admin:start": "yarn workspace @marvel/admin-rest start",
+
     "prepare": "husky install",
     "lint": "yarn workspaces run eslint --ext .js,.ts,.tsx src/"
   },
