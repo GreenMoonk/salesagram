@@ -9,23 +9,18 @@
   ],
   "scripts": {
     
-    "clean": "rimraf \"**/{.next,node_modules,__generated__,.cache}\"",
+  "shop:dev": "yarn workspace @pick-bazar/shop dev:gql",
+  "shop:build": "yarn workspace @pick-bazar/shop build:gql",
+  "shop:start": "yarn workspace @pick-bazar/shop start",
 
-    "dev:all": "yarn shop:dev && yarn admin:dev",
-    "build:all": "yarn shop:build && yarn admin:build",
-    "start:all": "yarn shop:start && yarn admin:start",
+  "admin:dev": "yarn workspace admin/rest dev",
+  "admin:build": "yarn workspace admin/rest build",
+  "admin:start": "yarn workspace admin/rest start",
 
-    "shop:dev": "yarn workspace shop dev",
-    "shop:build": "yarn workspace shop build",
-    "shop:start": "yarn workspace shop start",
-
-    "admin:dev": "yarn workspace admin/rest dev",
-    "admin:build": "yarn workspace admin/rest build",
-    "admin:start": "yarn workspace admin/rest start",
-
-    "prepare": "husky install",
-    "lint": "yarn workspaces run eslint --ext .js,.ts,.tsx src/"
-  },
+  "dev:all": "yarn shop:dev && yarn admin:dev",
+  "build:all": "yarn shop:build && yarn admin:build",
+  "start:all": "yarn shop:start && yarn admin:start"
+},
   "engines": {
     "node": ">=16.0.0",
     "yarn": ">=1.22.0"
