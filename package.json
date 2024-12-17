@@ -9,6 +9,8 @@
   ],
   "scripts": {
     
+  "clean": "rimraf \"**/{.next,node_modules,__generated__,.cache}\"",
+
   "shop:dev": "yarn workspace @pick-bazar/shop dev:gql",
   "shop:build": "yarn workspace @pick-bazar/shop build:gql",
   "shop:start": "yarn workspace @pick-bazar/shop start",
@@ -20,7 +22,8 @@
   "dev:all": "yarn shop:dev && yarn admin:dev",
   "build:all": "yarn shop:build && yarn admin:build",
   "start:all": "yarn shop:start && yarn admin:start"
-},
+  },
+
   "engines": {
     "node": ">=16.0.0",
     "yarn": ">=1.22.0"
