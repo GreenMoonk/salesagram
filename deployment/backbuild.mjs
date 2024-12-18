@@ -1,91 +1,52 @@
 #!/usr/bin/env zx
 
-const fs = require('fs');
-const logStream = fs.createWriteStream('setup.log', { flags: 'a' });
-const log = (message) => {
-    console.log(message);
-    logStream.write(`${new Date().toISOString()} - ${message}\n`);
-};
+import { question } from 'zx';
 
-log(chalk.blue('#Step 1 - Database creation'));
+console.log(chalk.blue('#Step 1 - Database creation'));
 
-log("Please enter the NAME of the new MySQL database! (example: pickbazar)");
-let dbname = await question('database name: ');
+let dbname = await question('Please enter the NAME of the new MySQL database! (example: ganjamill): ');
+let charset = await question('Please enter the MySQL database CHARACTER SET! (example: latin1, utf8, ...): ') || 'utf8';
 
-log("Please enter the MySQL database CHARACTER SET! (example: latin1, utf8, ...)");
-log("Enter utf8 if you don't know what you are doing");
-let charset = await question('charset name: ');
-
-log("Creating new MySQL database...");
+console.log('Creating new MySQL database...');
 try {
-    await $`sudo mysql -e "CREATE DATABASE ${dbname} /*\!40100 DEFAULT CHARACTER SET ${charset} */;"`;
-    log("Database successfully created!");
+    await $`sudo mysql -e "CREATE DATABASE ${dbname} /*\\!40100 DEFAULT CHARACTER SET ${charset} */;"`;
+    console.log('Database successfully created!');
 } catch (error) {
-    log(chalk.yellow(`Database ${dbname} already exists. Continuing...\n`));
+    console.log(chalk.yellow(`Database ${dbname} might already exist. Skipping creation.`));
 }
 
-log("Showing existing databases...");
+console.log('Showing existing databases...');
 await $`sudo mysql -e "show databases;"`;
 
-log("\nPlease enter the NAME of the new MySQL database user! (example: pickbazar_user)");
-let username = await question('database username: ');
+let username = await question('Please enter the NAME of the new MySQL database user! (example: ganjamill_user): ');
+let userpass = await question('Please enter the PASSWORD for the new MySQL database user! ');
 
-log("Please enter the PASSWORD for the new MySQL database user!");
-let userpass = await question('database password: ');
-
-log("Creating new user...");
+console.log('Creating new user...');
 try {
-    await $`sudo mysql -e "CREATE USER ${username}@'%' IDENTIFIED BY '${userpass}';"`;
-    log("User successfully created!\n");
+    await $`sudo mysql -e "CREATE USER IF NOT EXISTS '${username}'@'%' IDENTIFIED BY '${userpass}';"`;
+    console.log('User successfully created!');
 } catch (error) {
-    log(chalk.yellow(`User ${username} already exists. Continuing...\n`));
+    if (error.message.includes('Your password does not satisfy the current policy requirements')) {
+        console.log(chalk.red('Password does not meet MySQL password policy requirements.'));
+        console.log('Ensure the password contains at least: 8 characters, 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character.');
+        process.exit(1);
+    } else {
+        console.log(chalk.yellow(`User ${username} might already exist. Continuing...`));
+    }
 }
 
-log("Granting ALL privileges on ${dbname} to ${username}!");
-await $`sudo mysql -e "GRANT ALL PRIVILEGES ON ${dbname}.* TO '${username}'@'%';"`;
-await $`sudo mysql -e "FLUSH PRIVILEGES;"`;
-log(chalk.green("You're good now :)"));
-
-log(chalk.blue('#Step 2 - Configuring API project'));
-let domainName = await question('What is your domain name? ');
-log(chalk.green(`Your domain name is ${domainName} \n`));
-
-if (fs.existsSync('/var/www/ganjamill/api/.env')) {
-    log("Removing existing .env file...");
-    await $`sudo rm -f /var/www/ganjamill/api/.env`;
+console.log(`Granting ALL privileges on ${dbname} to ${username}!`);
+try {
+    await $`sudo mysql -e "GRANT ALL PRIVILEGES ON ${dbname}.* TO '${username}'@'%';"`;
+    await $`sudo mysql -e "FLUSH PRIVILEGES;"`;
+    console.log(chalk.green('Privileges successfully granted!'));
+} catch (error) {
+    if (error.message.includes('You are not allowed to create a user with GRANT')) {
+        console.log(chalk.red('Insufficient permissions to grant privileges. Make sure your MySQL user has the GRANT OPTION privilege.'));
+        process.exit(1);
+    } else {
+        console.log(chalk.yellow('Error occurred while granting privileges.'));
+    }
 }
-await $`sudo cp /var/www/ganjamill/api/.env.example /var/www/ganjamill/api/.env`;
-await $`sudo chmod 640 /var/www/ganjamill/api/.env`;
 
-await $`awk '{gsub(/APP_URL=http:\/\/localhost/,"APP_URL=https://${domainName}/backend"); print $0}' /var/www/ganjamill/api/.env.example > /var/www/ganjamill/api/.env`;
-
-await $`sed -ie 's/^DB_HOST=.*/DB_HOST=localhost/' /var/www/ganjamill/api/.env`;
-await $`sed -ie 's/^DB_DATABASE=.*/DB_DATABASE=${dbname}/' /var/www/ganjamill/api/.env`;
-await $`sed -ie 's/^DB_USERNAME=.*/DB_USERNAME=${username}/' /var/www/ganjamill/api/.env`;
-await $`sed -ie 's/^DB_PASSWORD=.*/DB_PASSWORD=${userpass}/' /var/www/ganjamill/api/.env`;
-
-log('Please be patient, project dependencies are downloading...');
-await $`composer install --working-dir /var/www/ganjamill/api`;
-log(chalk.green('Successfully downloaded dependencies \n'));
-
-log('Generating application key');
-await $`php /var/www/ganjamill/api/artisan key:generate`;
-
-log('Installing marvel packages...');
-await $`php /var/www/ganjamill/api/artisan marvel:install`;
-
-log('Adding storage link...');
-await $`php /var/www/ganjamill/api/artisan storage:link`;
-
-log('Setting permissions for the project');
-await $`sudo chown -R www-data:www-data /var/www/ganjamill/api/storage`;
-await $`sudo chown -R www-data:www-data /var/www/ganjamill/api/bootstrap/cache`;
-
-log(chalk.green('Setup Complete!'));
-log(`
-Summary:
-- Database: ${dbname}
-- User: ${username}
-- Domain: ${domainName}
-- Project is now ready to run at: https://${domainName}/backend
-`);
+console.log(chalk.green('Database setup complete!'));
