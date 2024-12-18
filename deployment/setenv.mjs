@@ -2,6 +2,8 @@
 
 // Автоматизация настройки сервера с использованием Apache2
 
+const fs = require('fs');
+
 console.log(chalk.green('Начало настройки сервера'));
 
 // Шаг 1: Установка PHP и зависимостей
@@ -27,12 +29,21 @@ await $`sudo apt install mysql-server`;
 console.log(chalk.blue('#Step 3: Настройка Apache для доменов ganjamill.io и ganjamill.asia'));
 
 let domainName = await question('Введите имя домена (например, ganjamill.io): ');
-let whichConfig = await question('Какой API вы хотите использовать? Введите 1 для REST API или 2 для GraphQL: ');
-
-// Создаем файл виртуального хоста
 let configPath = `/etc/apache2/sites-available/${domainName}.conf`;
-await $`sudo touch ${configPath}`;
-await $`sudo chmod 644 ${configPath}`;
+
+// Проверка существующей конфигурации
+if (fs.existsSync(configPath)) {
+    let overwrite = await question(`Конфигурация для ${domainName} уже существует. Перезаписать настройки? (yes/no): `);
+    if (overwrite.toLowerCase() !== 'yes') {
+        console.log(chalk.yellow('Пропуск настройки виртуального хоста.'));
+    } else {
+        console.log(chalk.blue(`Перезапись конфигурации для ${domainName}.`));
+    }
+} else {
+    console.log(chalk.blue('Создание новой конфигурации для виртуального хоста.'));
+}
+
+let whichConfig = await question('Какой API вы хотите использовать? Введите 1 для REST API или 2 для GraphQL: ');
 
 let apacheConfig = `
 <VirtualHost *:80>
@@ -46,14 +57,33 @@ let apacheConfig = `
         Require all granted
     </Directory>
 
-    ErrorLog \\${APACHE_LOG_DIR}/${domainName}_error.log
-    CustomLog \\${APACHE_LOG_DIR}/${domainName}_access.log combined
+    ErrorLog \${APACHE_LOG_DIR}/${domainName}_error.log
+    CustomLog \${APACHE_LOG_DIR}/${domainName}_access.log combined
 
     <IfModule mod_ssl.c>
         RewriteEngine On
         RewriteCond %{HTTPS} !=on
         RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
     </IfModule>
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName ${domainName}
+    ServerAlias www.${domainName}
+
+    DocumentRoot /var/www/ganjamill/${whichConfig == 1 ? "api" : "shop"}
+
+    <Directory /var/www/ganjamill/${whichConfig == 1 ? "api" : "shop"}>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    SSLEngine On
+    SSLCertificateFile /etc/letsencrypt/live/${domainName}/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/${domainName}/privkey.pem
+
+    ErrorLog \${APACHE_LOG_DIR}/${domainName}_ssl_error.log
+    CustomLog \${APACHE_LOG_DIR}/${domainName}_ssl_access.log combined
 </VirtualHost>
 `;
 
