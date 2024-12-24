@@ -149,7 +149,7 @@ class InstallCommand extends Command
 
     private function getLicenseKey($count = 0)
     {
-        $message = 'Kindly enter a valid License Key or visit https://redq.io/ganjamill-ecommerce for a legitimate license key';
+        $message = 'Kindly enter a valid License Key or visit https://redq.io/pickbazar-laravel-ecommerce for a legitimate license key';
         if ($count < 1) {
             $message = 'Please Enter Your License Key.';
         }
