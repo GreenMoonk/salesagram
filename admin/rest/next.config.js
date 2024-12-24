@@ -14,6 +14,8 @@ const nextConfig = {
   i18n,
   images: {
     domains: [
+      'ganjamill.io',
+      'admin.ganjamill.io',
       'via.placeholder.com',
       'res.cloudinary.com',
       's3.amazonaws.com',
