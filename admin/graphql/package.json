@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/core": "^7.0.0",
     "webpack": "^5.1.0",
+    "i18next": "^23.2.3",
     "@apollo/client": "3.11.8",
     "@floating-ui/react": "0.26.25",
     "@fontsource/open-sans": "5.1.0",
@@ -28,7 +29,6 @@
     "dotenv": "16.4.5",
     "framer-motion": "10.16.4",
     "graphql": "16.9.0",
-    "i18next": "23.16.4",
     "jotai": "2.10.1",
     "js-cookie": "3.0.5",
     "libphonenumber-js": "1.11.12",
