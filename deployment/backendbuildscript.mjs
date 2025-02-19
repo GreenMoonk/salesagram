@@ -36,33 +36,33 @@ echo(chalk.blue('#Step 9: Setting Up Server & Project'))
 let domainName = await question('What is your domain name? ')
 echo(chalk.green(`Your domain name is ${domainName} \n`))
 
-await $`sudo rm -f /var/www/pickbazar-laravel/api/.env`
-await $`sudo cp /var/www/pickbazar-laravel/api/.env.example /var/www/pickbazar-laravel/api/.env`;
-await $`sudo chmod 777 /var/www/pickbazar-laravel/api/.env`;
+await $`sudo rm -f /var/www/salesagram/api/.env`
+await $`sudo cp /var/www/salesagram/api/.env.example /var/www/salesagram/api/.env`;
+await $`sudo chmod 777 /var/www/salesagram/api/.env`;
 
 // await $`awk '{sub(/APP_URL=/,"APP_URL=https://${domainName}/backend"); print $0}' /var/www/pickbazar/api/.env.example > /var/www/pickbazar/api/.env`
-await $`awk '{gsub(/APP_URL=http:\\/\\/localhost/,"APP_URL=https://${domainName}/backend"); print $0}' /var/www/pickbazar-laravel/api/.env.example > /var/www/pickbazar-laravel/api/.env`;
+await $`awk '{gsub(/APP_URL=http:\\/\\/localhost/,"APP_URL=https://${domainName}/backend"); print $0}' /var/www/salesagram/api/.env.example > /var/www/salesagram/api/.env`;
 
-await $`sed -ie 's/^DB_HOST=.*/DB_HOST=localhost/' /var/www/pickbazar-laravel/api/.env`;
-await $`sed -ie 's/^DB_DATABASE=.*/DB_DATABASE=${dbname}/' /var/www/pickbazar-laravel/api/.env`;
-await $`sed -ie 's/^DB_USERNAME=.*/DB_USERNAME=${username}/' /var/www/pickbazar-laravel/api/.env`;
-await $`sed -ie 's/^DB_PASSWORD=.*/DB_PASSWORD=${userpass}/' /var/www/pickbazar-laravel/api/.env`;
+await $`sed -ie 's/^DB_HOST=.*/DB_HOST=localhost/' /var/www/salesagram/api/.env`;
+await $`sed -ie 's/^DB_DATABASE=.*/DB_DATABASE=${dbname}/' /var/www/salesagram/api/.env`;
+await $`sed -ie 's/^DB_USERNAME=.*/DB_USERNAME=${username}/' /var/www/salesagram/api/.env`;
+await $`sed -ie 's/^DB_PASSWORD=.*/DB_PASSWORD=${userpass}/' /var/www/salesagram/api/.env`;
 
 echo('Please keep patient project dependencies are downloading..')
-await $`composer install --working-dir /var/www/pickbazar-laravel/api`;
+await $`composer install --working-dir /var/www/salesagram/api`;
 echo(chalk.green('Successfully downloaded dependencies \n'))
 
 echo('Generating application key')
-await $`php /var/www/pickbazar-laravel/api/artisan key:generate`;
+await $`php /var/www/salesagram/api/artisan key:generate`;
 
 echo('Installing marvel packages...')
-await $`php /var/www/pickbazar-laravel/api/artisan marvel:install`;
+await $`php /var/www/salesagram/api/artisan marvel:install`;
 
 echo('Add storage link...')
-await $`php /var/www/pickbazar-laravel/api/artisan storage:link`;
+await $`php /var/www/salesagram/api/artisan storage:link`;
 
 echo('Giving permission for project')
-await $`sudo chown -R www-data:www-data /var/www/pickbazar-laravel/api/storage`;
-await $`sudo chown -R www-data:www-data /var/www/pickbazar-laravel/api/bootstrap/cache`;
+await $`sudo chown -R www-data:www-data /var/www/salesagram/api/storage`;
+await $`sudo chown -R www-data:www-data /var/www/salesagram/api/bootstrap/cache`;
 
 echo(chalk.green('Congratulations! your application running on YOUR_DOMAIN'))
