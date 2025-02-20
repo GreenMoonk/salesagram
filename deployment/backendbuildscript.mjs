@@ -2,7 +2,7 @@
 
 echo(chalk.blue('#Step 1 - Database creation'))
 
-echo("Please enter the NAME of the new MySQL database! (example: pickbazar)")
+echo("Please enter the NAME of the new MySQL database! (example: salesagram)")
 let dbname = await question('database name: ')
 
 echo("Please enter the MySQL database CHARACTER SET! (example: latin1, utf8, ...)")
@@ -16,7 +16,7 @@ echo("Database successfully created!")
 echo("Showing existing databases...")
 await $`sudo mysql -e "show databases;"`
 
-echo("\nPlease enter the NAME of the new MySQL database user! (example: pickbazar_user)")
+echo("\nPlease enter the NAME of the new MySQL database user! (example: salesagram_user)")
 let username = await question('database username: ')
 
 echo("Please enter the PASSWORD for the new MySQL database user!")
@@ -40,7 +40,7 @@ await $`sudo rm -f /var/www/salesagram/api/.env`
 await $`sudo cp /var/www/salesagram/api/.env.example /var/www/salesagram/api/.env`;
 await $`sudo chmod 777 /var/www/salesagram/api/.env`;
 
-// await $`awk '{sub(/APP_URL=/,"APP_URL=https://${domainName}/backend"); print $0}' /var/www/pickbazar/api/.env.example > /var/www/pickbazar/api/.env`
+// await $`awk '{sub(/APP_URL=/,"APP_URL=https://${domainName}/backend"); print $0}' /var/www/salesagram/api/.env.example > /var/www/salesagram/api/.env`
 await $`awk '{gsub(/APP_URL=http:\\/\\/localhost/,"APP_URL=https://${domainName}/backend"); print $0}' /var/www/salesagram/api/.env.example > /var/www/salesagram/api/.env`;
 
 await $`sed -ie 's/^DB_HOST=.*/DB_HOST=localhost/' /var/www/salesagram/api/.env`;
